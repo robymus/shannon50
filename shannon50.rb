@@ -5,7 +5,7 @@ require 'net/http'
 require 'json'
 require 'date'
 
-TOLERANCE = 2 # percentage points difference from 50% - to avoid commission eating up profits
+TOLERANCE = 0.5 # percentage points difference from 50% - to avoid commission eating up profits
 
 # get btc/usd price
 begin

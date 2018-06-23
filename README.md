@@ -1,4 +1,4 @@
-# Consant-proportion rebalanced portfolio bot
+# Constant-proportion rebalanced portfolio bot
 
 For trading in Bitfinex, BTC/USD, using 50-50% usd/btc balance (as suggested by Shannon).
 Rebalancing is done on every run, so schedule it in cron.
