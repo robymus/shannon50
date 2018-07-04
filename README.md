@@ -9,7 +9,8 @@ api_key: '...'
 secret: '...'
 ```
 
-Summary log is written to stdout.
+Transaction log is written to stdout (buy/sell orders)
+With `-v` switch, balance summary is written even without transactions.
 
 # Notice
 
