@@ -1,0 +1,36 @@
+# configuration file
+
+# available log levels
+# - none
+# - transaction
+# - info
+# available log targets
+# - stdout
+# - file (text file)
+# - web (stores all information for web display)
+log:
+  stdout:
+    level: info
+  file:
+    level: transaction
+    file: log/shannon50.log
+  web:
+    level: verbose
+    dir: log/web/
+
+# definition of portfolio
+portfolio:
+
+  - exchange: bitfinex
+    crypto: btc
+    fiat: usd                 # default
+    percent: 50               # default
+    virtual_fiat_reserve: 0   # default
+    key: bitfinex-apikey.yaml
+
+  - exchange: kraken
+    crypto: zec
+    fiat: eur
+    percent: 50               # default
+    virtual_fiat_reserve: 200 # we pretend we have more money than we actually do
+    key: kraken-apikey.yaml

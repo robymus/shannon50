@@ -1,2 +1,4 @@
 .bundle
-bitfinex-apikey.yaml
+.idea
+log
+*-apikey.yaml
