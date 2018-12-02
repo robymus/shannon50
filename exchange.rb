@@ -186,8 +186,7 @@ class ExKraken < Exchange
       ordertype: 'market',
       volume: crypto_amount
     }
-    # this is not nice, this is how error is reported from this kraken API wrapper - array: error, hash: OK
-    raise StandardError if @client.add_order(order).kind_of?(Array)
+    add_order_with_retry(order)
   rescue
     raise Error, 'Buy order failed'
   end
@@ -200,10 +199,26 @@ class ExKraken < Exchange
       ordertype: 'market',
       volume: crypto_amount
     }
-    # this is not nice, this is how error is reported from this kraken API wrapper - array: error, hash: OK
-    raise StandardError if @client.add_order(order).kind_of?(Array)
+    add_order_with_retry(order)
   rescue
     raise Error, 'Sell order failed'
+  end
+
+  private
+
+  # internal helper method, retries order, if it failes
+  def add_order_with_retry(order)
+    retries = 5
+    while retries > 0 do
+      r = @client.add_order(order)
+
+      # this is not nice, this is how error is reported from this kraken API wrapper - array: error, hash: OK
+      return r unless r.kind_of?(Array)
+
+      retries -= 1
+      sleep 5-retries if retries > 0
+    end
+    raise StandardError, "Failed to send order even after retries"
   end
 end
 
