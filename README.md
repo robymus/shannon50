@@ -1,18 +1,50 @@
 # Constant-proportion rebalanced portfolio bot
 
-For trading in Bitfinex, BTC/USD, using 50-50% usd/btc balance (as suggested by Shannon).
-Rebalancing is done on every run, so schedule it in cron.
+Minimal crypto bot, supporting Bitfinex and Kraken exchanges.
 
-API key is read from bitfinex-apikey.yaml, format:
+It simply does a constant proportion portfolio re-balancing, between a selected crypto currency and a selected fiat currency.
+
+In its original verion it used 50-50% balance (this is still the default), as suggested by Shannon for stock markets, but now it can be overridden.
+
+The script does the re-balancing on every run, so it should be run from cron.
+
+# Configuration
+
+Configuration is read from shannon50.yaml in the same directory as the script.
+
+A sample configuration is located in the shannon50.yaml file, with some comments.
+
+The script can write to several log destinations: standard output, log file and json files prepared for the web report module.
+
+The API keys should be written to separate yaml files. 
+
+## Bitfinex API key
+
+The yaml file format for Bitfinex API keys is
+
 ```
-api_key: '...'
-secret: '...'
+api_key: 'key here'
+secret: 'secret key here'
 ```
 
-Transaction log is written to stdout (buy/sell orders)
-With `-v` switch, balance summary is written even without transactions.
+## Kraken API key
 
-# Notice
+The yaml file format for Bitfinex API keys is
+
+```
+api_key: 'key here'
+secret: 'private key here'
+```
+
+# Command line arguments
+
+The single `-test` argument is supported, if this is present, no transactions are performed, but logs are written as if they were.
+
+# Web report
+
+Soon.
+
+# Important notice
 
 Absolutely no warranty, you might lose money using this. Use only at your own risk.
 **I mean it, this is risky.**
