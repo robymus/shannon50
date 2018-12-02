@@ -42,17 +42,17 @@ class TxLogger
   end
 
   def error(ex, str)
-    puts "#{get_name(ex)} - #{str}" if @level_stdout <= ERROR
+    puts "[#{Time.now}] #{get_name(ex)} - #{str}" if @level_stdout <= ERROR
     append_log_file "[#{Time.now}] #{get_name(ex)} - #{str}" if @level_file <= ERROR
   end
 
   def info(ex, exchange_rate, balance_crypto, balance_fiat, value_crypto, crypto_percentage, fiat_percentage)
-    text = "#{ex['exchange']} #{exchange_rate} #{ex['fiat']}/#{ex['crypto']}" +
+    text = "[#{Time.now}] #{ex['exchange']} #{exchange_rate} #{ex['fiat']}/#{ex['crypto']}" +
            " - #{balance_crypto.round(4)} #{ex['crypto']} (#{value_crypto.round(0)} #{ex['fiat']}, #{crypto_percentage.round(1)}%)" +
            ", #{balance_fiat.round(0)} #{ex['fiat']} (#{fiat_percentage.round(1)}%)" +
            " | portfolio: #{(balance_fiat+value_crypto).round(0)} #{ex['fiat']}"
     puts text if @level_stdout <= INFO
-    append_log_file "[#{Time.now}] #{text}" if @level_file <= INFO
+    append_log_file text if @level_file <= INFO
     if @level_web <= INFO
       txdata = {
         'timestamp' => Time.now.to_s,
@@ -67,13 +67,13 @@ class TxLogger
 
   # type should be 'sell' or 'buy'
   def transaction(ex, exchange_rate, balance_crypto, balance_fiat, value_crypto, crypto_percentage, fiat_percentage, type, amount)
-    text = "#{ex['exchange']} #{exchange_rate} #{ex['fiat']}/#{ex['crypto']}" +
+    text = "[#{Time.now}] #{ex['exchange']} #{exchange_rate} #{ex['fiat']}/#{ex['crypto']}" +
         " - #{balance_crypto.round(4)} #{ex['crypto']} (#{value_crypto.round(0)} #{ex['fiat']}, #{crypto_percentage.round(1)}%)" +
         ", #{balance_fiat.round(0)} #{ex['fiat']} (#{fiat_percentage.round(1)}%)" +
         " => #{type.upcase} #{amount} #{ex['crypto']}" +
         " | portfolio: #{(balance_fiat+value_crypto).round(0)} #{ex['fiat']}"
     puts text if @level_stdout <= TRANSACTION
-    append_log_file "[#{Time.now}] #{text}" if @level_file <= TRANSACTION
+    append_log_file text if @level_file <= TRANSACTION
     if @level_web <= TRANSACTION
       txdata = {
         'timestamp' => Time.now.to_s,
