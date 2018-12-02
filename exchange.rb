@@ -37,7 +37,7 @@ end
 # Bitfinex exchange implementation
 class ExBitfinex < Exchange
   def initialize(key)
-    @config = YAML.load_file(File.expand_path(key, File.dirname(__FILE__)))
+    @config = YAML.load_file(key)
 
     Bitfinex::Client.configure do |c|
       c.secret = @config['secret']
@@ -122,7 +122,7 @@ end
 class ExKraken < Exchange
 
   def initialize(key)
-    @config = YAML.load_file(File.expand_path(key, File.dirname(__FILE__)))
+    @config = YAML.load_file(key)
     @client = Kraken::Client.new(@config['api_key'], @config['secret'])
     @balances = @client.balance
     @pairs = @client.asset_pairs

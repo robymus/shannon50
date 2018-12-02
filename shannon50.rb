@@ -6,8 +6,11 @@ require 'json'
 # in test_mode (-test option) transactions are not executed
 test_mode = ARGV.include? '-test'
 
+# change to base directory
+Dir.chdir(File.dirname(__FILE__))
+
 # parse config
-config = YAML.load_file(File.expand_path('shannon50.yaml', File.dirname(__FILE__)))
+config = YAML.load_file('shannon50.yaml')
 
 log = TxLogger.new(config['log'])
 log.config(config)
