@@ -1,36 +1,37 @@
 # configuration file
 
 # available log levels
-# - none
-# - transaction
+# - error (verbose errors)
 # - info
+# - transaction
+# - none
 # available log targets
 # - stdout
 # - file (text file)
 # - web (stores all information for web display)
 log:
   stdout:
-    level: info
+    level: error
   file:
     level: transaction
     file: log/shannon50.log
   web:
-    level: verbose
-    dir: log/web/
+    level: info
+    dir: log/web
 
 # definition of portfolio
 portfolio:
 
-  - exchange: bitfinex
-    crypto: btc
-    fiat: usd                 # default
-    percent: 50               # default
-    virtual_fiat_reserve: 0   # default
+  - exchange: Bitfinex
     key: bitfinex-apikey.yaml
+    crypto: BTC
+    fiat: USD
+    crypto_percent: 50        # default
+    # id: bitfinex_usd        # can give a unique id, otherwise exchange:crypto:fiat is used in logs
+    # minimum_order: 50       # override exchange default minimum order with value in fiat
 
-  - exchange: kraken
-    crypto: zec
-    fiat: eur
-    percent: 50               # default
-    virtual_fiat_reserve: 200 # we pretend we have more money than we actually do
+  - exchange: Kraken
     key: kraken-apikey.yaml
+    crypto: ZEC
+    fiat: EUR
+    crypto_percent: 50        # default
