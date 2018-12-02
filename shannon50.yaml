@@ -28,7 +28,7 @@ portfolio:
     fiat: USD
     crypto_percent: 50        # default
     # id: bitfinex_usd        # can give a unique id, otherwise exchange:crypto:fiat is used in logs
-    # minimum_order: 50       # override exchange default minimum order with value in fiat
+    # minimum_order: 0.3      # override exchange default minimum order with value in crypto
 
   - exchange: Kraken
     key: kraken-apikey.yaml

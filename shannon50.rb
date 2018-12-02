@@ -25,6 +25,8 @@ config['portfolio'].each do |ex|
     balance_fiat = exchange.get_fiat_balance(fiat)
     balance_crypto = exchange.get_crypto_balance(crypto)
 
+    minimum_order_size *= exchange_rate
+
     value_crypto = balance_crypto * exchange_rate
     portfolio = balance_fiat + value_crypto
 
@@ -36,14 +38,14 @@ config['portfolio'].each do |ex|
     log.info(ex, exchange_rate, balance_crypto, balance_fiat, value_crypto, crypto_percentage, fiat_percentage)
 
     # check if transaction is required and process transaction
-    if value_crypto > midway+minimum_order_size
+    if value_crypto > midway + minimum_order_size
       # sell crypto
       amt = balance_crypto - midway / exchange_rate
       amt = amt.round(4)
       exchange.sell(crypto, fiat, amt) unless test_mode
       # log after successful execution
       log.transaction(ex, exchange_rate, balance_crypto, balance_fiat, value_crypto, crypto_percentage, fiat_percentage, 'sell', amt)
-    elsif value_crypto < midway-minimum_order_size then
+    elsif value_crypto < midway - minimum_order_size
       # buy crypto
       amt = midway / exchange_rate - balance_crypto
       amt = amt.round(4)
