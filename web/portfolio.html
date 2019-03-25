@@ -9,15 +9,16 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js" integrity="sha256-srhz/t0GOrmVGZryG24MVDyFDYZpvUH2+dnJ8FbpGi0=" crossorigin="anonymous"></script>
 	<script src="portfolio.js"></script>
+    <link rel="stylesheet" href="chart.css"/>
 
 	<script id="item_template" type="x-tmpl-mustache">
-	  		<div class="col-12 col-md-6 col-lg-4" data-idx="{{idx}}">
+	  		<div class="col-12 col-md-6 col-lg-6" data-idx="{{idx}}">
 	  			<div class="card">
-	  				<div class="card-header">{{exchange}}<span style="float:right">{{crypto}}:{{fiat}}</span></div>
+  				<div class="card-header">{{exchange}}<span style="float:right">{{crypto}}:{{fiat}}</span></div>
 	  				<ul class="list-group list-group-flush">
 	  					<li class="list-group-item list-group-item-primary"><b>{{balance.total}} {{fiat}}</b><span style="float:right">{{balance.crypto}} {{crypto}} @ {{balance.rate}} {{fiat}}</span></li>
 	  				</ul>
-	  				<!-- <canvas class="card-img-top"></canvas> -->
+  					<div class="ct-chart ct-octave" id="{{chartid}}"></div>
 	  				<ul class="list-group list-group-flush">
 	  					{{#lasttx}}
 	  						{{#buy}}

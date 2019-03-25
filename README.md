@@ -46,6 +46,8 @@ The web directory contains a simple web interface for the web logs. It reads the
 
 The web report is static html and using ajax query to read the log json files directly.
 
+The chart shows the portfolio value (red) vs. the baseline portfolio value (eg. without doing anything, just keeping it in crypto).
+
 # Important notice
 
 Absolutely no warranty, you might lose money using this. Use only at your own risk.

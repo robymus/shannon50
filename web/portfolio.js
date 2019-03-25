@@ -51,11 +51,17 @@ function readData(idx, pair, dataUrl) {
 function createPanel(idx, pair, txlog) {
 	// get current balance from last tx
 	var balance = {total: "-", crypto: "-", rate: "-"};
-	if (txlog.length > 0) {
-		var last = txlog[txlog.length-1];
+	var i = txlog.length-1;
+	while (i >= 0) {
+		var last = txlog[i];
+		if (last['balance_crypto'] == 0 && last['balance_fiat'] == 0) {
+			i--;
+			continue;
+		}
 		balance['total'] = (last['balance_fiat'] + last['balance_crypto']*last['exchange_rate']).toFixed(1);
 		balance['crypto'] = last['balance_crypto'].toFixed(4);
 		balance['rate'] = last['exchange_rate'].toFixed(2);
+		break;
 	}
 	// last 5 transactions
 	var i = txlog.length-1;
@@ -76,7 +82,8 @@ function createPanel(idx, pair, txlog) {
 		i--;
 	}
 	// render item
-	Object.assign(pair, {idx: idx, balance: balance, lasttx: lasttx});
+	var chartid="chart"+idx;
+	Object.assign(pair, {idx: idx, balance: balance, lasttx: lasttx, chartid: chartid});
 	var template = $('#item_template').html();
 	var rendered = Mustache.render(template, pair);
 	var container = $('#item_container');
@@ -93,4 +100,52 @@ function createPanel(idx, pair, txlog) {
 		});
 		items.detach().appendTo(container);
 	}
+	// collect data from info elements
+	var fiatvalue = []
+	var baseline = []
+	var basecrypto = false
+	var lastcrypto = 0
+	for (var i = 0; i < txlog.length; i++) {
+		var tx = txlog[i];
+		if (tx['type'] == 'sell') {
+			lastcrypto -= tx['amount'];
+			continue;
+		}
+		if (tx['type'] == 'buy') {
+			lastcrypto += tx['amount'];
+			continue;
+		}
+		if (tx['balance_fiat'] == 0 && tx['balance_crypto'] == 0) continue;
+		// check if crypto value has been changed - update basecrypto (eg. mining income, etc.)
+		if (basecrypto == false) {
+			basecrypto = tx['balance_crypto'] + tx['balance_fiat'] / tx['exchange_rate'];
+			lastcrypto = tx['balance_crypto'];
+		}
+		else if (Math.abs(lastcrypto-tx['balance_crypto']) > 0.01) {
+			var diff = tx['balance_crypto'] - lastcrypto;
+			lastcrypto += diff;
+			basecrypto += diff;
+		}
+
+		baseline.push((basecrypto * tx['exchange_rate']).toFixed(1));
+		fiatvalue.push((tx['balance_fiat']+tx['balance_crypto']*tx['exchange_rate']).toFixed(1));
+	}
+	var data = {
+		  series: [
+		  	fiatvalue,
+		  	baseline
+		  ]
+		};
+	var options = {
+		showPoint: false,
+		showGridBackground: false,
+		fullWidth: true,
+		axisY: {
+			showGrid: true
+		},
+		axisX: {
+			showGrid: false
+		}
+	};
+	new Chartist.Line('#'+chartid, data, options);
 }
