@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>shannon50 stat</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css" integrity="sha256-SmSEXNAArTgQ8SR6kKpyP/N+jA8f8q8KpG0qQldSKos=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css" integrity="sha256-Te9+aTaL9j0U5PzLhtAHt+SXlgIT8KT9VkyOZn68hak=" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js" integrity="sha256-UzffRueYhyZDw8Cj39UCnnggvBfa1fPcDQ0auvCbvCc=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js" integrity="sha256-srhz/t0GOrmVGZryG24MVDyFDYZpvUH2+dnJ8FbpGi0=" crossorigin="anonymous"></script>
+	<script src="portfolio.js"></script>
+
+	<script id="item_template" type="x-tmpl-mustache">
+	  		<div class="col-12 col-md-6 col-lg-4" data-idx="{{idx}}">
+	  			<div class="card">
+	  				<div class="card-header">{{exchange}}<span style="float:right">{{crypto}}:{{fiat}}</span></div>
+	  				<ul class="list-group list-group-flush">
+	  					<li class="list-group-item list-group-item-primary"><b>{{balance.total}} {{fiat}}</b><span style="float:right">{{balance.crypto}} {{crypto}} @ {{balance.rate}} {{fiat}}</span></li>
+	  				</ul>
+	  				<!-- <canvas class="card-img-top"></canvas> -->
+	  				<ul class="list-group list-group-flush">
+	  					{{#lasttx}}
+	  						{{#buy}}
+			  					<li class="list-group-item list-group-item-success">{{time}} <span style="float:right">+{{amount}} @ {{rate}}</span></li>
+		  					{{/buy}}
+		  					{{#sell}}
+			  					<li class="list-group-item list-group-item-danger">{{time}} <span style="float:right">-{{amount}} @ {{rate}}</span></li>
+		  					{{/sell}}
+	  					{{/lasttx}}
+	  				</ul>
+				</div>	  		
+				<p></p>
+			</div>		
+	</script>
+  </head>
+  <body>
+
+  	<nav class="navbar">
+  		<a class="navbar-brand" href="#">Portfolio @ <span id="lastupdate">...</span></a>
+	</nav>
+
+  	<div class="container">
+  		<div class="row" id="item_container">
+	  	</div>
+  	</div>
+  
+  <script>
+  	$(function() {
+  		fetchConfig('data');
+  	});
+  </script>
+  </body>
+</html>

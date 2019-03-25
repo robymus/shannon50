@@ -2,3 +2,5 @@
 .idea
 log
 *-apikey.yaml
+web/data
+.DS_Store

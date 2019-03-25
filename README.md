@@ -42,7 +42,9 @@ The single `-test` argument is supported, if this is present, no transactions ar
 
 # Web report
 
-Soon.
+The web directory contains a simple web interface for the web logs. It reads the log from the 'data' subdirectory, the web logs should be stored here to use this report. Modify portfolio.html to change this - the `fetchConfig('data');` line defines the log directory location as 'data'.
+
+The web report is static html and using ajax query to read the log json files directly.
 
 # Important notice
 
